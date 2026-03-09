@@ -1,0 +1,104 @@
+openapi: 3.0.0
+info:
+  title: Payment Service API
+  description: Contract between Order Service and Payment Service
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:5001
+    description: Payment Service server
+
+paths:
+  /pay:
+    post:
+      summary: Create new payment
+      operationId: createPayment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - amount
+              properties:
+                amount:
+                  type: number
+                  minimum: 0.01
+                  example: 100.50
+      responses:
+        '200':
+          description: Payment created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - payment_id
+                  - amount
+                  - status
+                properties:
+                  payment_id:
+                    type: string
+                    example: "pay_12345678"
+                  amount:
+                    type: number
+                    example: 100.50
+                  status:
+                    type: string
+                    enum: [success, pending, failed]
+                    example: "success"
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Amount must be positive"
+
+  /payment/{payment_id}:
+    get:
+      summary: Get payment by ID
+      operationId: getPayment
+      parameters:
+        - name: payment_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Payment ID
+      responses:
+        '200':
+          description: Payment details
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - payment_id
+                  - amount
+                  - status
+                properties:
+                  payment_id:
+                    type: string
+                    example: "pay_12345678"
+                  amount:
+                    type: number
+                    example: 100.50
+                  status:
+                    type: string
+                    enum: [success, pending, failed]
+                    example: "success"
+        '404':
+          description: Payment not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Payment not found"
