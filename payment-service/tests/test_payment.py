@@ -12,7 +12,6 @@ def client():
         yield client
 
 def test_health_check(client):
-    """Тест: проверка здоровья сервиса"""
     response = client.get('/health')
     assert response.status_code == 200
     data = response.get_json()
@@ -20,7 +19,7 @@ def test_health_check(client):
     assert data['service'] == 'payment'
 
 def test_payment_success(client):
-    """Тест: успешное создание платежа"""
+    """Успешное создание платежа"""
     response = client.post('/pay', json={'amount': 100})
     assert response.status_code == 200
     data = response.get_json()
@@ -29,22 +28,22 @@ def test_payment_success(client):
     assert data['status'] == 'success'
 
 def test_payment_no_amount(client):
-    """Тест: создание платежа без суммы"""
+    """Создание платежа без суммы"""
     response = client.post('/pay', json={})
     assert response.status_code == 400
 
 def test_payment_zero_amount(client):
-    """Тест: создание платежа с нулевой суммой"""
+    """Создание платежа с нулевой суммой"""
     response = client.post('/pay', json={'amount': 0})
     assert response.status_code == 400
 
 def test_payment_negative_amount(client):
-    """Тест: создание платежа с отрицательной суммой"""
+    """Создание платежа с отрицательной суммой"""
     response = client.post('/pay', json={'amount': -50})
     assert response.status_code == 400
 
 def test_get_payment_success(client):
-    """Тест: получение существующего платежа"""
+    """Получение существующего платежа"""
     create_resp = client.post('/pay', json={'amount': 150})
     payment_data = create_resp.get_json()
     payment_id = payment_data['payment_id']
@@ -56,6 +55,6 @@ def test_get_payment_success(client):
     assert data['amount'] == 150
 
 def test_get_payment_not_found(client):
-    """Тест: получение несуществующего платежа"""
+    """Получение несуществующего платежа"""
     response = client.get('/payment/12345678')
     assert response.status_code == 404

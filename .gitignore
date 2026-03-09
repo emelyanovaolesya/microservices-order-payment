@@ -1,10 +1,8 @@
-# Виртуальное окружение
 venv/
 .venv/
 env/
 ENV/
 
-# Python
 __pycache__/
 *.pyc
 .pytest_cache/
@@ -12,22 +10,18 @@ __pycache__/
 *.pyo
 *.pyd
 
-# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
-# Базы данных
 *.db
 *.sqlite3
 *.sqlite
 
-# Логи
 *.log
 logs/
 
-# Системные файлы
 .DS_Store
 Thumbs.db

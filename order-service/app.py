@@ -10,7 +10,6 @@ orders = {}
 
 @app.route('/order', methods=['POST'])
 def create_order():
-    """Создает заказ и вызывает платежный сервис"""
     order_data = request.json
     
     if not order_data or 'amount' not in order_data:

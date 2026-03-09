@@ -29,7 +29,6 @@ def process_payment():
 
 @app.route('/payment/<payment_id>', methods=['GET'])
 def get_payment(payment_id):
-    """Получить информацию о платеже"""
     payment = payments.get(payment_id)
     if payment:
         return jsonify(payment)
